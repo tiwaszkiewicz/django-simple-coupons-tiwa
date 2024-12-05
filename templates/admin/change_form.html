@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools %}
+    {{ block.super }}
+    {% if login_as_link %}
+        <li>
+            <a href="{{ login_as_link }}">Login as</a>
+        </li>
+    {% endif %}
+{% endblock %}

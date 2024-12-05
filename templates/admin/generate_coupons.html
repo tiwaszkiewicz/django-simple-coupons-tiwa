@@ -1,0 +1,38 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form method="post">{% csrf_token %}
+    <p>
+        <label for="id_prefix">Prefix:</label>
+        <input type="text" name="prefix" id="id_prefix" value="NEW_" required>
+    </p>
+    <p>
+        <label for="id_count">Count:</label>
+        <input type="number" name="count" id="id_count" value="1" min="1" max="100" required>
+    </p>
+    <p>
+        <label for="id_count">Length:</label>
+        <input type="number" name="length" id="id_length" value="10" min="10" max="30" required>
+    </p>
+    <p>
+        <label for="id_discount">Discount:</label>
+        <select name="discount" id="id_discount" required>
+            <option value="">-- Select Discount --</option>
+            {% for discount in discounts %}
+                <option value="{{ discount.id }}">{{ discount }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <label for="id_ruleset">Ruleset:</label>
+        <select name="ruleset" id="id_ruleset" required>
+            <option value="">-- Select Ruleset --</option>
+            {% for ruleset in rulesets %}
+                <option value="{{ ruleset.id }}">{{ ruleset }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <button type="submit" class="button">Generate</button>
+</form>
+<a href="../">Back</a>
+{% endblock %}
