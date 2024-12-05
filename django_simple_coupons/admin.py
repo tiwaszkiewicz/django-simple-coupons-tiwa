@@ -16,7 +16,7 @@ from django_simple_coupons.actions import (reset_coupon_usage, delete_expired_co
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):
     list_display = ('code', 'discount', 'ruleset', 'times_used', 'created', )
-    actions = [delete_expired_coupons]
+    actions = [delete_expired_coupons, generate_coupons_action]  # Dodajemy nową akcję
 
 
 @admin.register(Discount)
@@ -53,7 +53,4 @@ class ValidityRuleAdmin(admin.ModelAdmin):
         return {}
     
 
-@admin.register(Coupon)
-class CouponAdmin(admin.ModelAdmin):
-    list_display = ('code', 'discount', 'ruleset', 'times_used', 'created', )
-    actions = [delete_expired_coupons, generate_coupons_action]  # Dodajemy nową akcję
+

@@ -1,5 +1,6 @@
 from django.contrib.admin import ModelAdmin
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 
 # Create your actions here
@@ -29,13 +30,13 @@ reset_coupon_usage.short_description = "Reset coupon usage"
 delete_expired_coupons.short_description = "Delete expired coupons"
 
 
-from django.utils.crypto import get_random_string
+
 
 def generate_coupons_action(modeladmin, request, queryset):
     """
     Action to generate multiple coupons with a specified prefix.
     """
-    prefix = "JANEK_"  # Możesz ustawić prefiks na stałe lub dodać logikę pobierania go od użytkownika
+    prefix = ""  # Możesz ustawić prefiks na stałe lub dodać logikę pobierania go od użytkownika
     count = 5          # Liczba kuponów do wygenerowania
     generated_count = 0
 
