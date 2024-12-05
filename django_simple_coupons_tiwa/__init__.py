@@ -1,1 +1,1 @@
-default_app_config = 'django_simple_coupons.apps.DjangoSimpleCouponsConfig'
+default_app_config = 'django_simple_coupons_tiwa.apps.DjangoSimpleCouponsConfig'
