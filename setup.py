@@ -7,17 +7,17 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-simple-coupons',
+    name='django-simple-coupons-tiwa',
     version='0.5',
-    packages=['django_simple_coupons'],
+    packages=['django_simple_coupons-tiwa'],
     include_package_data=True,
     license='MIT License',
     description='A Django app that makes the use of coupons a simple task!',
     long_description=README,
     long_description_content_type="text/markdown",
-    url='https://github.com/Wolfterro/django-simple-coupons',
-    author='Wolfgang Almeida',
-    author_email='wolfgang.almeida@yahoo.com',
+    url='https://github.com/tiwaszkiewicz/django-simple-coupons-tiwa',
+    author='Wolfgang Almeida -> Tiwa',
+    author_email='biuro@solidbraine.eu',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
