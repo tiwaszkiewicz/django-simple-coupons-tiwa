@@ -29,7 +29,7 @@ class CouponAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         # Dodaj link do swojej akcji lub widoku
         extra_context['additional_button'] = format_html(
-            '<a class="button" href="{}">Generate Coupons</a>',
+            '<a class="button" href="/">Generate Coupons</a>',
             reverse('admin:generate-coupons')  # Zamień na odpowiednią nazwę widoku
         )
         return super().changelist_view(request, extra_context=extra_context)
