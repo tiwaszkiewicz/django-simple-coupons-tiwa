@@ -1,4 +1,4 @@
-from django_simple_coupons.models import Coupon, CouponUser
+from django_simple_coupons_tiwa.models import Coupon, CouponUser
 from django.utils import timezone
 
 

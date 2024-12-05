@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from django_simple_coupons.models import (Coupon,
+from django_simple_coupons_tiwa.models import (Coupon,
                                           Discount,
                                           Ruleset,
                                           CouponUser,
@@ -8,7 +8,7 @@ from django_simple_coupons.models import (Coupon,
                                           MaxUsesRule,
                                           ValidityRule)
 
-from django_simple_coupons.actions import (reset_coupon_usage, delete_expired_coupons, generate_coupons_action)
+from django_simple_coupons_tiwa.actions import (reset_coupon_usage, delete_expired_coupons, generate_coupons_action)
 
 
 # Register your models here.
