@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from django_simple_coupons_tiwa.helpers import (get_random_code,
+from django_simple_coupons.helpers import (get_random_code,
                                            get_coupon_code_length,
                                            get_user_model)
 

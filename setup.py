@@ -7,9 +7,9 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-simple-coupons-tiwa',
+    name='django-simple-coupons',
     version='0.5',
-    packages=['django_simple_coupons-tiwa'],
+    packages=['django_simple_coupons'],
     include_package_data=True,
     license='MIT License',
     description='A Django app that makes the use of coupons a simple task!',
