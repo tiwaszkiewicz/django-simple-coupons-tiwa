@@ -8,7 +8,7 @@ from django_simple_coupons.models import (Coupon,
                                           MaxUsesRule,
                                           ValidityRule)
 
-from django_simple_coupons.actions import (reset_coupon_usage, delete_expired_coupons)
+from django_simple_coupons.actions import (reset_coupon_usage, delete_expired_coupons, generate_coupons_action)
 
 
 # Register your models here.
@@ -51,3 +51,9 @@ class MaxUsesRuleAdmin(admin.ModelAdmin):
 class ValidityRuleAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}
+    
+
+@admin.register(Coupon)
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ('code', 'discount', 'ruleset', 'times_used', 'created', )
+    actions = [delete_expired_coupons, generate_coupons_action]  # Dodajemy nową akcję
