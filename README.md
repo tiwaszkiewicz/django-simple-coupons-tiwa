@@ -1,3 +1,11 @@
+## django-simple-coupons-tiwa
+
+This project is a fork of [django-simple-coupons](https://github.com/original_author/django-simple-coupons) by Original Author.
+
+Changes:
+- Added custom fields for coupons.
+- Improved validation logic.
+
 # django-simple-coupons
 ##  A Django app that makes the use of coupons a simple task!
 
