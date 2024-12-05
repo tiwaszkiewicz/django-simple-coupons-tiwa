@@ -13,42 +13,56 @@ from django_simple_coupons.actions import (reset_coupon_usage, delete_expired_co
 
 # Register your models here.
 # ==========================
-from django.utils.crypto import get_random_string
 from django.contrib import admin
+from django.shortcuts import render, redirect
+from django.urls import path
+from django.utils.crypto import get_random_string
 from .models import Coupon, Discount, Ruleset
 
-@admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ('code', 'discount', 'ruleset', 'times_used', 'created', )
-    actions = [delete_expired_coupons, generate_coupons_action]  # Dodajemy nową akcję
+    list_display = ('code', 'discount', 'times_used', 'created')
+    change_list_template = "admin/coupon_change_list.html"
 
-    @admin.action(description='Generate new coupons')
-    def generate_coupons_action(self, request, queryset):
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['generate_url'] = 'generate-coupons'
+        return super().changelist_view(request, extra_context=extra_context)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('generate-coupons/', self.admin_site.admin_view(self.generate_coupons_view), name='generate-coupons'),
+        ]
+        return custom_urls + urls
+
+    def generate_coupons_view(self, request):
         """
-        Tworzy nowe kupony w bazie danych niezależnie od zaznaczonych.
+        Widok do generowania nowych kuponów.
         """
-        prefix = "NEW_"  # Możesz wprowadzić logikę do ustawiania tego dynamicznie
-        count = 5        # Liczba kuponów do wygenerowania
-        discount = Discount.objects.first()  # Pobierz istniejącą zniżkę
-        ruleset = Ruleset.objects.first()    # Pobierz istniejący zestaw zasad
+        if request.method == 'POST':
+            # Przykładowe parametry
+            prefix = request.POST.get('prefix', 'NEW_')
+            count = int(request.POST.get('count', 5))
 
-        if not discount or not ruleset:
-            self.message_user(request, "Error: Missing Discount or Ruleset", level="error")
-            return
+            discount = Discount.objects.first()
+            ruleset = Ruleset.objects.first()
 
-        created_coupons = []
-        for _ in range(count):
-            random_part = get_random_string(length=30 - len(prefix))
-            code = f"{prefix}{random_part}"
-            coupon = Coupon.objects.create(
-                code=code,
-                discount=discount,
-                ruleset=ruleset
-            )
-            created_coupons.append(coupon)
+            if not discount or not ruleset:
+                self.message_user(request, "Error: Missing Discount or Ruleset", level="error")
+                return redirect("..")
 
-        self.message_user(request, f"Successfully created {len(created_coupons)} new coupons.")    
+            for _ in range(count):
+                random_part = get_random_string(length=30 - len(prefix))
+                code = f"{prefix}{random_part}"
+                Coupon.objects.create(code=code, discount=discount, ruleset=ruleset)
 
+            self.message_user(request, f"Successfully created {count} new coupons.")
+            return redirect("..")
+
+        return render(request, 'admin/generate_coupons.html', {
+            'title': 'Generate New Coupons',
+        })
 
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):

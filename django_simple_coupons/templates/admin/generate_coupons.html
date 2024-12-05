@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+<form method="post">{% csrf_token %}
+    <p>
+        <label for="id_prefix">Prefix:</label>
+        <input type="text" name="prefix" id="id_prefix" value="NEW_" required>
+    </p>
+    <p>
+        <label for="id_count">Count:</label>
+        <input type="number" name="count" id="id_count" value="5" min="1" max="100" required>
+    </p>
+    <button type="submit" class="button">Generate Coupons</button>
+</form>
+<a href="../">Back</a>
+{% endblock %}
