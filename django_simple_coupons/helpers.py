@@ -4,7 +4,7 @@ import random
 from django.conf import settings
 
 
-def get_coupon_code_length(length=12):
+def get_coupon_code_length(length=30):
     return settings.DSC_COUPON_CODE_LENGTH if hasattr(settings, 'DSC_COUPON_CODE_LENGTH') else length
 
 

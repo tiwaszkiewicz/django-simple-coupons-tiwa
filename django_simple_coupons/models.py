@@ -90,14 +90,21 @@ class Discount(models.Model):
         verbose_name_plural = "Discounts"
 
 
-class Coupon(models.Model):
-    code_length = get_coupon_code_length()
+from django.db import models
+from django.utils.crypto import get_random_string
+from django.utils import timezone
 
-    code = models.CharField(max_length=code_length, default=get_random_code, verbose_name="Coupon Code", unique=True)
+class Coupon(models.Model):
+    MAX_CODE_LENGTH = 30  # Maksymalna długość kodu (łącznie z prefiksem)
+
+    code = models.CharField(
+        max_length=MAX_CODE_LENGTH,
+        verbose_name="Coupon Code",
+        unique=True
+    )
     discount = models.ForeignKey('Discount', on_delete=models.CASCADE)
     times_used = models.IntegerField(default=0, editable=False, verbose_name="Times used")
-    created = models.DateTimeField(editable=False, verbose_name="Created")
-
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Created")
     ruleset = models.ForeignKey('Ruleset', on_delete=models.CASCADE, verbose_name="Ruleset")
 
     def __str__(self):
@@ -116,20 +123,34 @@ class Coupon(models.Model):
             "value": self.discount.value,
             "is_percentage": self.discount.is_percentage
         }
-    
+
     def get_discounted_value(self, initial_value):
         discount = self.get_discount()
 
         if discount['is_percentage']:
             new_price = initial_value - ((initial_value * discount['value']) / 100)
-            new_price = new_price if new_price >= 0.0 else 0.0
         else:
             new_price = initial_value - discount['value']
-            new_price = new_price if new_price >= 0.0 else 0.0
 
-        return new_price
+        return max(new_price, 0.0)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.created = timezone.now()
-        return super(Coupon, self).save(*args, **kwargs)
+    @classmethod
+    def generate_coupons(cls, prefix, count, discount, ruleset):
+        if len(prefix) >= cls.MAX_CODE_LENGTH:
+            raise ValueError("Prefix is too long. It must be shorter than 30 characters.")
+
+        random_part_length = cls.MAX_CODE_LENGTH - len(prefix)
+        coupons = []
+
+        for _ in range(count):
+            random_part = get_random_string(length=random_part_length)
+            code = f"{prefix}{random_part}"
+
+            coupon = cls.objects.create(
+                code=code,
+                discount=discount,
+                ruleset=ruleset
+            )
+            coupons.append(coupon)
+
+        return coupons
