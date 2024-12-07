@@ -78,7 +78,7 @@ class CouponAdmin(admin.ModelAdmin):
             self.message_user(request, f"Successfully created {count} coupons.")
             return redirect("..")
 
-        return render(request, 'admin/admin/django_simple_coupons/generate_coupons.html', {
+        return render(request, 'admin/django_simple_coupons/generate_coupons.html', {
         'title': 'Generate Coupons',
         'discounts': discounts,  # Lista zniżek
         'rulesets': rulesets,    # Lista zestawów zasad
