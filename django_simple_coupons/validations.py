@@ -28,11 +28,12 @@ def validate_allowed_users_rule(coupon_object, user):
 
 def validate_max_uses_rule(coupon_object, user):
     max_uses_rule = coupon_object.ruleset.max_uses
-    if coupon_object.times_used >= max_uses_rule.max_uses and not max_uses_rule.is_infinite:
-        return False
+    #if coupon_object.times_used >= max_uses_rule.max_uses and not max_uses_rule.is_infinite:
+    #    return False
 
     try:
-        coupon_user = CouponUser.objects.get(user=user)
+        #coupon_user = CouponUser.objects.get(user=user)
+        coupon_user = coupon_object
         if coupon_user.times_used >= max_uses_rule.uses_per_user:
             return False
     except CouponUser.DoesNotExist:
