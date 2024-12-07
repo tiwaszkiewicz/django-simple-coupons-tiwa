@@ -52,26 +52,26 @@ def validate_validity_rule(coupon_object):
 
 def validate_coupon(coupon_code, user):
     if not coupon_code:
-        return assemble_invalid_message(message="No coupon code provided!")
+        return assemble_invalid_message(message="Nie podano kodu kuponu!")
 
     if not user:
-        return assemble_invalid_message(message="No user provided!")
+        return assemble_invalid_message(message="Nie podano użytkownika!")
 
     try:
         coupon_object = Coupon.objects.get(code=coupon_code)
     except Coupon.DoesNotExist:
-        return assemble_invalid_message(message="Coupon does not exist!")
+        return assemble_invalid_message(message="Kupon nie istnieje!")
 
     valid_allowed_users_rule = validate_allowed_users_rule(coupon_object=coupon_object, user=user)
     if not valid_allowed_users_rule:
-        return assemble_invalid_message(message="Invalid coupon for this user!")
+        return assemble_invalid_message(message="Kupon jest nieważny dla tego użytkownika!")
 
     valid_max_uses_rule = validate_max_uses_rule(coupon_object=coupon_object, user=user)
     if not valid_max_uses_rule:
-        return assemble_invalid_message(message="Coupon uses exceeded for this user!")
+        return assemble_invalid_message(message="Przekroczono limit użyć kuponu dla tego użytkownika!")
 
     valid_validity_rule = validate_validity_rule(coupon_object=coupon_object)
     if not valid_validity_rule:
-        return assemble_invalid_message(message="Invalid coupon!")
+        return assemble_invalid_message(message="Kupon jest nieważny!")
 
     return VALID_TEMPLATE
