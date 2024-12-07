@@ -29,7 +29,7 @@ from django.urls import path
 class CouponAdmin(admin.ModelAdmin):
     list_display = ('code', 'discount', 'ruleset', 'times_used', 'created', )
     actions = [delete_expired_coupons]
-    change_list_template = "admin/coupon_change_list.html"
+    change_list_template = "admin/django_simple_coupons/coupon_change_list.html"
 
     def changelist_view(self, request, extra_context=None):
         """
@@ -78,7 +78,7 @@ class CouponAdmin(admin.ModelAdmin):
             self.message_user(request, f"Successfully created {count} coupons.")
             return redirect("..")
 
-        return render(request, 'admin/generate_coupons.html', {
+        return render(request, 'admin/admin/django_simple_coupons/generate_coupons.html', {
         'title': 'Generate Coupons',
         'discounts': discounts,  # Lista zniżek
         'rulesets': rulesets,    # Lista zestawów zasad
