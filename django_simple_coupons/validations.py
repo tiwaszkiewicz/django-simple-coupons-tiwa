@@ -68,7 +68,7 @@ def validate_coupon(coupon_code, user):
 
     valid_max_uses_rule = validate_max_uses_rule(coupon_object=coupon_object, user=user)
     if not valid_max_uses_rule:
-        return assemble_invalid_message(message="Przekroczono limit użyć kuponu dla tego użytkownika!")
+        return assemble_invalid_message(message="Kuponu nie można użyć więcej razy!")
 
     valid_validity_rule = validate_validity_rule(coupon_object=coupon_object)
     if not valid_validity_rule:
